@@ -1,14 +1,21 @@
+const http = require('http');
 
-const EventEmitter = require('events'); 
+const server = http.createServer((req, res) => {
+    if(req.url === '/'){
+        res.write('Hello World');
+        res.end();
+    }
 
-const Logger = require('./logger');
-const logged = new Logger();
+    if(req.url === '/api/courses'){
+        res.write(JSON.stringify([1,2,3]));
+        res.end();
+    }
 
-//Register a listener
-logger.on('messageLogged', function(arg){ 
-    console.log('Listener called', arg);
 });
 
-Logger.log('message');
+server.on('connection'), (socket) => {
+    console.log('New connection...');
+};
+server.listen(3000);
 
-//Raise: logging (data: message)    
+console.log('Listening on port 3000...');
